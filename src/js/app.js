@@ -1,6 +1,7 @@
 import 'bootstrap/dist/css/bootstrap.css';
 import '../css/style.css';
 
+import { login } from './services/auth.service';
 import UI from './config/ui.config';
 import { validate } from './helpers/validate';
 import { showInputError, removeInputError } from './views/form';
@@ -19,9 +20,19 @@ inputs.forEach(input => input.addEventListener('focus', () => {
 }));
 
 //Handlers
-function onSubmit(){
+async function onSubmit(){
     const isValidForm =  validateInputs(inputs);
-    console.log(isValidForm)
+
+    if (!isValidForm) return;
+
+    try {
+        await login(inputEmail.value, inputPassword.value);
+        form.reset();
+        //show success notify
+    } catch (error) {
+        //show error notify
+        return Promise.reject(error);
+    }
 }
 
 function validateInputs(inputsArr){
