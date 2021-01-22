@@ -5,7 +5,8 @@ import { login } from './services/auth.service';
 import UI from './config/ui.config';
 import { validate } from './helpers/validate';
 import { showInputError, removeInputError } from './views/form';
-
+import { notify } from './views/notifications';
+import {getNews} from './services/news.service'
 const {form, inputEmail, inputPassword} = UI;
 const inputs = [inputEmail, inputPassword];
 
@@ -27,10 +28,13 @@ async function onSubmit(){
 
     try {
         await login(inputEmail.value, inputPassword.value);
+        await getNews();
+        notify({message: 'Login success', className: "alert-success", timeout: 1000 });
         form.reset();
         //show success notify
     } catch (error) {
         //show error notify
+        notify({message: 'Login faild', className: "alert-danger", timeout: 1000 });
         return Promise.reject(error);
     }
 }
@@ -47,3 +51,8 @@ function validateInputs(inputsArr){
         return isVlidInput;
     });
 }
+
+/*
+email: denis.m.pcspace@gmail.com
+password: dmgame12345
+*/
