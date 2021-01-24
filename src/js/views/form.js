@@ -1,36 +1,33 @@
 /**
  * Function inputErrorTemplate
- * @param {String} message 
- * @returns {String} - Return input error template
+ * @param {String} msg
  */
-function inputErrorTemplate(message) {
-    return `
-        <div class="invalid-feedback"> ${message} </div>
-    `;
+function inputErrorTemplate(msg) {
+  return `
+    <div class="invalid-feedback">${msg}</div>
+  `;
 }
 
 /**
  * Function showInputError. Add input error
- * @param {HTMLInputElement} element 
+ * @param {HTMLInputElement} el
  */
-export function showInputError(element){
-    const parent = element.parentElement;
-    const message = element.dataset.invalidMessage || 'Invalid data';
-    const template = inputErrorTemplate(message);
-    element.classList.add('is-invalid');
-    parent.insertAdjacentHTML('beforeEnd', template);
+export function showInputError(el) {
+  const parent = el.parentElement;
+  const msg = el.dataset.invalidMessage || 'Invalid input';
+  const template = inputErrorTemplate(msg);
+  el.classList.add('is-invalid');
+  parent.insertAdjacentHTML('beforeend', template);
 }
-
 /**
  * Function removeInputError. Remove input error
- * @param {HTMLInputElement} element 
+ * @param {HTMLInputElement} el
  */
+export function removeInputError(el) {
+  const parent = el.parentElement;
+  const err = parent.querySelector('.invalid-feedback');
+  if (!err) return;
 
-export function removeInputError(element) {
-    const parent = element.parentElement;
-    const error = parent.querySelector('.invalid-feedback');
-    if(!error) return;
-    
-    element.classList.remove('is-invalid');
-    parent.removeChild(error);
+  el.classList.remove('is-invalid');
+  parent.removeChild(err);
 }

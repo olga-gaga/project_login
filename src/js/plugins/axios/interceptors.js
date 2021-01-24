@@ -1,35 +1,38 @@
-const lsToken = 'my_app_token';
+const lsTokenKey = 'my_app_token';
 
-function setToken(request){
-    const isAuthUrl = request.url.includes('auth');
-    if(!isAuthUrl) {
-        const token = localStorage.getItem(lsToken);
-        request.headers['x-access-token'] = token;
+function setToken(req) {
+    const isAuthUrl = req.url.includes('auth');
+
+    if (!isAuthUrl) {
+        const token = localStorage.getItem(lsTokenKey);
+        req.headers['x-access-token'] = token;
     }
-    return request;
+
+    return req;
 }
 
-function setTokenOnLogin(response){
-    const isLoginUrl = response.config.url.includes('login');
+function setTokenOnLogin(res) {
+    const isLoginUrl = res.config.url.includes('login');
 
-    if(isLoginUrl){
-        const token = response.data.token;
-        localStorage.setItem(lsToken, token);
+    if (isLoginUrl) {
+        const token = res.data.token;
+        localStorage.setItem(lsTokenKey, token);
     }
-    
-    return response;
+
+    return res;
 }
 
-function getClearResponse(response){
-    return response.data;
+function getClearResponse(res) {
+    return res.data;
 }
 
-function onError(error) {
-    return Promise.reject(error);
+function onError(err) {
+    console.dir(err);
+    return Promise.reject(err);
 }
 
-export default function (axios){
+export default function (axios) {
     axios.interceptors.request.use(setToken);
     axios.interceptors.response.use(setTokenOnLogin);
-    axios.interceptors.response.use(getClearResponse, OnError);
+    axios.interceptors.response.use(getClearResponse, onError);
 }
