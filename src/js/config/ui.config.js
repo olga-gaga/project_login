@@ -12,6 +12,8 @@ const SignUI = {
   inputEmail:document.querySelector('#signup input.email'),
   inputPhone: document.getElementById('phone'),
   inputBirthday: document.getElementById('birthday'),
+  inputCity: document.getElementById('city'),
+  inputCountry: document.getElementById('country'),
   inputPassword: document.querySelector('#signup input.password'),
   inputGender:document.querySelectorAll('#signup .form-check-input'),
 }

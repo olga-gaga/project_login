@@ -5,8 +5,8 @@ import { showInputError, removeInputError } from '../views/form';
 import { login } from '../services/auth.service';
 import { getNews } from '../services/news.service';
 
-const { form, inputEmail, inputPassword, inputFirstName, inputLastName, inputPhone, inputNickname, inputBirthday, inputGender} = SignUI;
-const inputs = [inputFirstName, inputLastName, inputNickname, inputEmail,  inputPhone,  inputBirthday, inputPassword];
+const { form, inputEmail, inputPassword, inputFirstName, inputLastName, inputPhone, inputNickname, inputBirthday, inputGender, inputCity, inputCountry} = SignUI;
+const inputs = [inputFirstName, inputLastName, inputNickname, inputEmail,  inputPhone,  inputBirthday, inputCity, inputCountry, inputPassword];
 console.log(inputs);
 
 
@@ -19,7 +19,7 @@ export default async function onSubmit() {
     //inputEmail, inputPassword, inputFirstName, inputLastName, inputPhone, inputNickname, inputBirthday
     const gender = Array.from(inputGender).find(input => input.checked === true);
     const date = new Date(inputBirthday.value);
-    const data = createSignupObject(inputEmail.value, inputPassword.value, inputNickname.value, inputFirstName.value, inputLastName.value, inputPhone.value, gender.value, date);
+    const data = createSignupObject(inputEmail.value, inputPassword.value, inputNickname.value, inputFirstName.value, inputLastName.value, inputPhone.value, gender.value, inputCity.value, inputCountry.value,  date);
     console.log(data);
     /*
     try {
@@ -41,10 +41,12 @@ export default async function onSubmit() {
    * @param {string} last_name 
    * @param {string} phone - string of numbers
    * @param {string} gender_orientation - "male" or "female"
+   * @param {string} city
+   * @param {string} country
    * @param {object} date - Date.prototype
    */
 
-  function createSignupObject(email, password, nickname, first_name, last_name, phone, gender_orientation, date) {
+  function createSignupObject(email, password, nickname, first_name, last_name, phone, gender_orientation, city, country, date) {
       return {
         email,
         password,
@@ -53,8 +55,8 @@ export default async function onSubmit() {
         last_name,
         phone,
         gender_orientation,
-        city: "Kharkiv",
-        country: "Ukrane",
+        city,
+        country,
         date_of_birth_day: date.getDate(),
         date_of_birth_month: date.getMonth() + 1,
         date_of_birth_year: date.getFullYear(),
