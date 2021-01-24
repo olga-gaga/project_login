@@ -5,7 +5,7 @@ import axios from '../plugins/axios';
  * @param {String} email
  * @param {String} password
  */
-export async function signup(registrationData) {
+export default async function signup(registrationData) {
   try {
     const response = await axios.post(
         '/auth/signup',

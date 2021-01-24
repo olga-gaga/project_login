@@ -31,3 +31,18 @@ export function removeInputError(el) {
   el.classList.remove('is-invalid');
   parent.removeChild(err);
 }
+
+export async function addAutocomplite(id, list) {
+  const optionContainer = document.getElementById(id);
+  optionTemplate.innerHTML = '';
+  const fragment = Object.keys(list)
+    .reduce( (acc, key) => {
+      acc += optionTemplate(key);
+      return acc;
+    }, '' );
+    optionContainer.insertAdjacentHTML('afterbegin', fragment);
+}
+
+function optionTemplate(value){
+  return `<option data-id="">${value}</option>`;
+}

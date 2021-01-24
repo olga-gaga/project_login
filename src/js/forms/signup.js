@@ -2,34 +2,40 @@ import { SignUI } from '../config/ui.config';
 import { validate, validForm } from '../helpers/validate';
 import { notify } from '../views/notifications'; 
 import { showInputError, removeInputError } from '../views/form';
-import { login } from '../services/auth.service';
+import signup from '../services/signup.service';
 import { getNews } from '../services/news.service';
 
 const { form, inputEmail, inputPassword, inputFirstName, inputLastName, inputPhone, inputNickname, inputBirthday, inputGender, inputCity, inputCountry} = SignUI;
-const inputs = [inputFirstName, inputLastName, inputNickname, inputEmail,  inputPhone,  inputBirthday, inputCity, inputCountry, inputPassword];
+
+const inputs = [inputFirstName, inputLastName, inputNickname, inputEmail,  inputPhone,  inputBirthday, inputCountry, inputCity, inputPassword];
 console.log(inputs);
 
 
 inputs.forEach(el => el.addEventListener('focus', () => removeInputError(el)));
 
-export default async function onSubmit() {
+export async function onSubmit() {
     notify({ msg: 'Ququ', className: 'alert-success' });
     const isValidForm = validForm(inputs);
     if (!isValidForm) return;
-    //inputEmail, inputPassword, inputFirstName, inputLastName, inputPhone, inputNickname, inputBirthday
+  
     const gender = Array.from(inputGender).find(input => input.checked === true);
     const date = new Date(inputBirthday.value);
-    const data = createSignupObject(inputEmail.value, inputPassword.value, inputNickname.value, inputFirstName.value, inputLastName.value, inputPhone.value, gender.value, inputCity.value, inputCountry.value,  date);
-    console.log(data);
-    /*
+    const registrationData = createSignupObject(
+      inputEmail.value, inputPassword.value, inputNickname.value, 
+      inputFirstName.value, inputLastName.value, inputPhone.value, 
+      gender.value, inputCity.value, inputCountry.value,  date);
+    console.log(registrationData);
+
+    
     try {
-      await login(inputEmail.value, inputPassword.value);
-      await getNews();
+      await signup(registrationData);
       form.reset();
-      notify({ msg: 'Login success', className: 'alert-success' });
+      notify({ msg: 'Signup success', className: 'alert-success' });
     } catch (err) {
-      notify({ msg: 'Login faild', className: 'alert-danger' });
-    }*/
+      notify({ msg: 'Signup success', className: 'alert-danger' });
+    }
+
+
   }
 
   /**
@@ -62,6 +68,8 @@ export default async function onSubmit() {
         date_of_birth_year: date.getFullYear(),
       };
   }
+
+
 
   /*
   {

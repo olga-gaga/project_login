@@ -22,7 +22,7 @@
               <a class="nav-link active" data-toggle="tab" href="#login">Login</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" data-toggle="tab" href="#signup">Sign Up</a>
+              <a class="nav-link" id="tab-signup" data-toggle="tab" href="#signup">Sign Up</a>
             </li>
           </ul>
         
@@ -146,29 +146,44 @@
                       </div>
 
                       <div class="form-group">
-                        <label for="city">City</label>
-                        <input
-                          type="text"
-                          class="form-control"
-                          id="city"
-                          aria-describedby="emailHelp"
-                          placeholder="Enter your city"
-                          data-required="city"
-                          data-invalid-message="Please provide valid city (latin characters only: a-z, A-Z)"
-                        />
-                      </div>
-
-                      <div class="form-group">
                         <label for="country">Country</label>
                         <input
                           type="text"
                           class="form-control"
                           id="country"
+                          list="countriesList"
                           aria-describedby="emailHelp"
                           placeholder="Enter your country"
                           data-required="country"
                           data-invalid-message="Please provide valid country (latin characters only: a-z, A-Z)"
                         />
+                        <datalist id="countriesList">
+                          <!--<option>Бавария</option>
+                          <option>Бенфика</option>
+                          <option>Боруссия</option>
+                          <option>Брюгге</option>-->
+                        </datalist>
+                      </div>
+
+                      <div class="form-group">
+                        <label for="city">City</label>
+                        <input
+                          type="text"
+                          class="form-control"
+                          id="city"
+                          list="citiesList"
+                          aria-describedby="emailHelp"
+                          placeholder="Enter your city"
+                          data-required="city"
+                          data-invalid-message="Please provide valid city (latin characters only: a-z, A-Z)"
+                          disabled
+                        />
+                        <datalist id="citiesList">
+                          <!--<option>Бавария</option>
+                          <option>Бенфика</option>
+                          <option>Боруссия</option>
+                          <option>Брюгге</option>-->
+                        </datalist>
                       </div>
 
                       <div class="form-group">
