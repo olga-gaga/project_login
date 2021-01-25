@@ -1,41 +1,67 @@
 import { SignUI } from '../config/ui.config';
-import { validate, validForm } from '../helpers/validate';
+import { validForm } from '../helpers/validate';
 import { notify } from '../views/notifications'; 
-import { showInputError, removeInputError } from '../views/form';
+import { addAutocomplite, removeInputError } from '../views/form';
 import signup from '../services/signup.service';
-import { getNews } from '../services/news.service';
+import { getCountries, getCities } from '../services/autocomplite.service';
 
-const { form, inputEmail, inputPassword, inputFirstName, inputLastName, inputPhone, inputNickname, inputBirthday, inputGender, inputCity, inputCountry} = SignUI;
+const { form, gender: inputGender, inputs:inputsObj} = SignUI;
 
-const inputs = [inputFirstName, inputLastName, inputNickname, inputEmail,  inputPhone,  inputBirthday, inputCountry, inputCity, inputPassword];
-console.log(inputs);
+const inputs = Object.values(inputsObj);
 
+inputs.forEach(element => element.addEventListener('focus', () => removeInputError(element)));
 
-inputs.forEach(el => el.addEventListener('focus', () => removeInputError(el)));
+export async function initAutocomplite(){
+  const country = document.getElementById('country');
+  const city = document.getElementById('city');
+
+  const countriesList = await getCountries();
+  addAutocomplite('countriesList', countriesList);
+
+  country.addEventListener('change', async (e) => {
+    const countryId = countriesList[country.value];
+    if( countryId !== -1) {
+      city.removeAttribute('disabled');
+      const cities = await getCities(countryId);
+      addAutocomplite('citiesList', cities);
+    }
+  });
+}
 
 export async function onSubmit() {
-    notify({ msg: 'Ququ', className: 'alert-success' });
     const isValidForm = validForm(inputs);
     if (!isValidForm) return;
-  
-    const gender = Array.from(inputGender).find(input => input.checked === true);
-    const date = new Date(inputBirthday.value);
-    const registrationData = createSignupObject(
-      inputEmail.value, inputPassword.value, inputNickname.value, 
-      inputFirstName.value, inputLastName.value, inputPhone.value, 
-      gender.value, inputCity.value, inputCountry.value,  date);
-    console.log(registrationData);
 
+    // Preparing data for posting
+    const inputsValues = getInputsValues(inputsObj);
+    const registrationData = createSignupObject(inputsValues);
     
     try {
       await signup(registrationData);
       form.reset();
-      notify({ msg: 'Signup success', className: 'alert-success' });
+      notify({ message: 'Signup success', className: 'alert-success' });
     } catch (err) {
-      notify({ msg: 'Signup success', className: 'alert-danger' });
+      notify({ message: 'Signup success', className: 'alert-danger' });
     }
+  }
 
-
+  function getInputsValues(
+    {inputEmail, inputPassword, inputNickname, inputFirstName, inputLastName, inputPhone, inputCountry, inputCity, inputBirthday} = {}
+    ){
+    const gender = Array.from(inputGender).find(input => input.checked);
+    const date = new Date(inputBirthday.value); 
+    return {
+      email: inputEmail.value, 
+      password: inputPassword.value,
+      nickname: inputNickname.value, 
+      first_name:inputFirstName.value, 
+      last_name: inputLastName.value, 
+      phone:inputPhone.value,
+      country: inputCountry.value, 
+      city: inputCity.value, 
+      gender_orientation: gender.value, 
+      date,
+    };
   }
 
   /**
@@ -52,8 +78,8 @@ export async function onSubmit() {
    * @param {object} date - Date.prototype
    */
 
-  function createSignupObject(email, password, nickname, first_name, last_name, phone, gender_orientation, city, country, date) {
-      return {
+  function createSignupObject({email, password, nickname, first_name, last_name, phone, gender_orientation, city, country, date} = {}) { 
+    return {
         email,
         password,
         nickname,
@@ -69,21 +95,3 @@ export async function onSubmit() {
       };
   }
 
-
-
-  /*
-  {
-        email: "denis.m.pcspace@gmail.com",
-        password: "dmgame12345",
-        nickname: "dmgame",
-        first_name: "Denis",
-        last_name: "Mescheryakov",
-        phone: "0631234567",
-        gender_orientation: "male", // or "female"
-        city: "Kharkiv",
-        country: "Ukrane",
-        date_of_birth_day: 01,
-        date_of_birth_month: 03,
-        date_of_birth_year: 1989,
-    }
-      */

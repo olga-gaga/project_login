@@ -1,14 +1,14 @@
-import {LogUI} from '../config/ui.config';
-import { validate, validForm } from '../helpers/validate';
+import { LogUI } from '../config/ui.config';
+import { validForm } from '../helpers/validate';
 import { notify } from '../views/notifications'; 
-import { showInputError, removeInputError } from '../views/form';
+import { removeInputError } from '../views/form';
 import { login } from '../services/auth.service';
 import { getNews } from '../services/news.service';
 
 const { form, inputEmail, inputPassword } = LogUI;
 const inputs = [inputEmail, inputPassword];
 
-inputs.forEach(el => el.addEventListener('focus', () => removeInputError(el)));
+inputs.forEach(element => element.addEventListener('focus', () => removeInputError(element)));
 
 export default async function onSubmit() {
     const isValidForm = validForm(inputs);
@@ -19,8 +19,8 @@ export default async function onSubmit() {
       await login(inputEmail.value, inputPassword.value);
       await getNews();
       form.reset();
-      notify({ msg: 'Login success', className: 'alert-success' });
-    } catch (err) {
-      notify({ msg: 'Login faild', className: 'alert-danger' });
+      notify({ message: 'Login success', className: 'alert-success' });
+    } catch (error) {
+      notify({ message: 'Login faild', className: 'alert-danger' });
     }
   }

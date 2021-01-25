@@ -1,40 +1,40 @@
 /**
  * Function inputErrorTemplate
- * @param {String} msg
+ * @param {String} message
  */
-function inputErrorTemplate(msg) {
+function inputErrorTemplate(message) {
   return `
-    <div class="invalid-feedback">${msg}</div>
+    <div class="invalid-feedback">${message}</div>
   `;
 }
 
 /**
  * Function showInputError. Add input error
- * @param {HTMLInputElement} el
+ * @param {HTMLInputElement} element
  */
-export function showInputError(el) {
-  const parent = el.parentElement;
-  const msg = el.dataset.invalidMessage || 'Invalid input';
-  const template = inputErrorTemplate(msg);
-  el.classList.add('is-invalid');
+export function showInputError(element) {
+  const parent = element.parentElement;
+  const message = element.dataset.invalidMessage || 'Invalid input';
+  const template = inputErrorTemplate(message);
+  element.classList.add('is-invalid');
   parent.insertAdjacentHTML('beforeend', template);
 }
+
 /**
  * Function removeInputError. Remove input error
- * @param {HTMLInputElement} el
+ * @param {HTMLInputElement} element
  */
-export function removeInputError(el) {
-  const parent = el.parentElement;
-  const err = parent.querySelector('.invalid-feedback');
-  if (!err) return;
+export function removeInputError(element) {
+  const parent = element.parentElement;
+  const error = parent.querySelector('.invalid-feedback');
+  if (!error) return;
 
-  el.classList.remove('is-invalid');
-  parent.removeChild(err);
+  element.classList.remove('is-invalid');
+  parent.removeChild(error);
 }
 
 export async function addAutocomplite(id, list) {
-  const optionContainer = document.getElementById(id);
-  optionTemplate.innerHTML = '';
+  const optionContainer = getContainer(id);
   const fragment = Object.keys(list)
     .reduce( (acc, key) => {
       acc += optionTemplate(key);
@@ -43,6 +43,13 @@ export async function addAutocomplite(id, list) {
     optionContainer.insertAdjacentHTML('afterbegin', fragment);
 }
 
+
 function optionTemplate(value){
   return `<option data-id="">${value}</option>`;
+}
+
+function getContainer(id) {
+  const container = document.getElementById(id);
+  container.innerHTML = '';
+  return container;
 }

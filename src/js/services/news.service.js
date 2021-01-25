@@ -5,8 +5,8 @@ export async function getNews() {
     const response = await axios.get('/news');
     console.log(response);
     return response;
-  } catch (err) {
-    console.log(err);
-    return Promise.reject(err);
+  } catch (error) {
+    console.log(error);
+    return Promise.reject(error);
   }
 }

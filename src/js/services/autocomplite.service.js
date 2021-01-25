@@ -5,9 +5,9 @@ export async function getCountries() {
     const response = await axios.get('/location/get-countries');
     const newResponse = changeObject(response);
     return newResponse;
-  } catch (err) {
-    console.log(err);
-    return Promise.reject(err);
+  } catch (error) {
+    console.log(error);
+    return Promise.reject(error);
   }
 }
 
@@ -15,10 +15,10 @@ export async function getCities(idCountry){
     try {
         const response = await axios.get(`location/get-cities/${idCountry}`);
         const newResponse = changeObject(response);
-    return newResponse;
-      } catch (err) {
-        console.log(err);
-        return Promise.reject(err);
+        return newResponse;
+      } catch (error) {
+        console.log(error);
+        return Promise.reject(error);
       }
 }
 

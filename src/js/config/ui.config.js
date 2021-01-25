@@ -6,17 +6,18 @@ const LogUI = {
 
 const SignUI = {
   form: document.forms['signForm'],
-  inputFirstName: document.getElementById('first_name'),
-  inputLastName: document.getElementById('last_name'),
-  inputNickname: document.getElementById('nickname'),
-  inputEmail:document.querySelector('#signup input.email'),
-  inputPhone: document.getElementById('phone'),
-  inputBirthday: document.getElementById('birthday'),
-  inputCity: document.getElementById('city'),
-  inputCountry: document.getElementById('country'),
-  inputPassword: document.querySelector('#signup input.password'),
-  inputGender:document.querySelectorAll('#signup .form-check-input'),
+  inputs: {
+    inputFirstName: document.getElementById('first_name'),
+    inputLastName: document.getElementById('last_name'),
+    inputNickname: document.getElementById('nickname'),
+    inputEmail:document.querySelector('#signup input.email'),
+    inputPhone: document.getElementById('phone'),
+    inputBirthday: document.getElementById('birthday'),
+    inputCity: document.getElementById('city'),
+    inputCountry: document.getElementById('country'),
+    inputPassword: document.querySelector('#signup input.password'),
+  },
+  gender: document.querySelectorAll('#signup .form-check-input'), 
 }
 
-console.log(SignUI);
 export { LogUI, SignUI };

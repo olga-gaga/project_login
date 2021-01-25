@@ -1,24 +1,18 @@
 import 'bootstrap/dist/css/bootstrap.css';
 import '../css/style.css';
 import onSubmitLogin from './forms/login';
-import { onSubmit as onSubmitSignup } from './forms/signup';
+import { initAutocomplite, onSubmit as onSubmitSignup } from './forms/signup';
 import { LogUI, SignUI } from './config/ui.config';
-import { getCountries, getCities } from './services/autocomplite.service';
-import { addAutocomplite } from './views/form';
-
 
 document.addEventListener('DOMContentLoaded', async (e) => {
+
+  // Form initialization
   const { form: formLogin } = LogUI;
   const { form: formSignup} = SignUI;
-  const country = document.getElementById('country');
-  const city = document.getElementById('city');
+  
+  initAutocomplite();
 
-  const countriesList = await getCountries();
-  addAutocomplite('countriesList', countriesList);
-  /*signupTab.addEventListener('click', e => {
-    addCountriesAutocomplite();
-  });*/
-
+  // Events
   formLogin.addEventListener('submit', e => {
     e.preventDefault();
     onSubmitLogin();
@@ -29,20 +23,7 @@ document.addEventListener('DOMContentLoaded', async (e) => {
     onSubmitSignup();
   });
 
-  country.addEventListener('change', async (e) => {
-    const countryId = countriesList[country.value];
-    if( countryId !== -1) {
-      city.removeAttribute('disabled');
-      const cities = await getCities(countryId);
-      addAutocomplite('citiesList', cities);
-    }
-    
-  })
 })
-
-
-
-
 
 /*
 email: denis.m.pcspace@gmail.com

@@ -1,34 +1,34 @@
 const lsTokenKey = 'my_app_token';
 
-function setToken(req) {
-    const isAuthUrl = req.url.includes('auth');
+function setToken(request) {
+    const isAuthUrl = request.url.includes('auth');
 
     if (!isAuthUrl) {
         const token = localStorage.getItem(lsTokenKey);
-        req.headers['x-access-token'] = token;
+        request.headers['x-access-token'] = token;
     }
 
-    return req;
+    return request;
 }
 
-function setTokenOnLogin(res) {
-    const isLoginUrl = res.config.url.includes('login');
+function setTokenOnLogin(response) {
+    const isLoginUrl = response.config.url.includes('login');
 
     if (isLoginUrl) {
-        const token = res.data.token;
+        const token = response.data.token;
         localStorage.setItem(lsTokenKey, token);
     }
 
-    return res;
+    return response;
 }
 
-function getClearResponse(res) {
-    return res.data;
+function getClearResponse(response) {
+    return response.data;
 }
 
-function onError(err) {
-    console.dir(err);
-    return Promise.reject(err);
+function onError(error) {
+    console.dir(error);
+    return Promise.reject(error);
 }
 
 export default function (axios) {

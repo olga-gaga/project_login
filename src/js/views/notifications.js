@@ -2,10 +2,10 @@ function getContainer() {
   return document.querySelector('.notify-container');
 }
 
-function alertTemplate(msg, className, index) {
+function alertTemplate(message, className, index) {
   return `
     <div class="alert ${className}" data-index="${index}">
-      ${msg}
+      ${message}
     </div>
   `;
 }
@@ -28,21 +28,22 @@ function getAlertIndex() {
 /**
  * Function notify. Show notification message
  * @param {Object} settings
- * @param {string} settings.msg
+ * @param {string} settings.message
  * @param {string} settings.className
  * @param {number} settings.timeout
  */
 export function notify({
-  msg = 'Info message',
+  message = 'Info message',
   className = 'alert-info',
   timeout = 2000,
 } = {}) {
+  
   if (!getContainer()) {
     createNotifyContainer();
   }
 
   const index = getAlertIndex();
-  const template = alertTemplate(msg, className, index);
+  const template = alertTemplate(message, className, index);
   const container = getContainer();
 
   container.insertAdjacentHTML('beforeend', template);

@@ -2,7 +2,7 @@ import { showInputError} from '../views/form';
 const regExpDic = {
   email: /^([a-zA-Z0-9_\-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([a-zA-Z0-9\-]+\.)+))([a-zA-Z]{1,5}|[0-9]{1,3})(\]?)$/,
   phone: /^(\s*)?(\+)?([- _():=+]?\d[- _():=+]?){10,14}(\s*)?$/,
-  password: /^[0-9a-zA-Z]{4,}$/,
+  password: /^[0-9a-zA-Z\-]{8,}$/,
   last_name: /^[a-zA-Z\-]{3,}$/,
   first_name: /^[a-zA-Z\-]{3,}$/,
   nickname: /^[0-9a-zA-Z\-]{4,}$/, 
@@ -23,7 +23,6 @@ export function validate(element) {
 
 export function validForm(inputs){
   const isValidForm = inputs.every(element => {
-    //debugger;
     const isValidInput = validate(element) && element.value;
     if (!isValidInput) {
       showInputError(element);
