@@ -38,3 +38,8 @@
 .login-greeting-screen .login-greeting-screen-description {
   line-height: 1.4;
 }
+
+#signup .form-card{
+  max-height: 500px;
+  overflow-y: scroll;
+}
