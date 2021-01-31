@@ -40,10 +40,8 @@ export async function onSubmit() {
     // Preparing data for posting
     const inputsValues = getInputsValues(inputsObj);
     const registrationData = createSignupObject(inputsValues);
-    console.log(registrationData);
     try {
       const result = await signup(registrationData);
-      console.log(result.error)
       if(result.error) {
         notify({ message: result.message, className: 'alert-danger' });
         return;

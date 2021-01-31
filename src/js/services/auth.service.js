@@ -8,7 +8,6 @@ import axios from '../plugins/axios';
 export async function login(email, password) {
   try {
     const response = await axios.post( `/auth/login`, JSON.stringify({ email, password }));
-    console.log(response);
     return response;
   } catch (error) {
     console.log(error);

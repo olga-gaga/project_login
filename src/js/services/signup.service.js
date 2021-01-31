@@ -8,7 +8,6 @@ import axios from '../plugins/axios';
 export default async function signup(registrationData) {
   try {
     const response = await axios.post( '/auth/signup', JSON.stringify(registrationData));
-    console.log(response);
     return response;
   } catch (error) {
     console.log(error);

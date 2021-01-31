@@ -14,7 +14,6 @@ export async function getCountries() {
 export async function getCities(idCountry){
     try {
         const response = await axios.get(`location/get-cities/${idCountry}`);
-        console.log(response);
         const citiesList = changeObject(response);
         return citiesList;
       } catch (error) {
