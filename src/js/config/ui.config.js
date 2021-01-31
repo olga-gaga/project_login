@@ -20,4 +20,6 @@ const SignUI = {
   gender: document.querySelectorAll('#signup .form-check-input'), 
 }
 
+console.log(LogUI, SignUI)
+
 export { LogUI, SignUI };

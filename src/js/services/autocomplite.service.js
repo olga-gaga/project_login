@@ -3,8 +3,8 @@ import axios from '../plugins/axios';
 export async function getCountries() {
   try {
     const response = await axios.get('/location/get-countries');
-    const newResponse = changeObject(response);
-    return newResponse;
+    const countriesList = changeObject(response);
+    return countriesList;
   } catch (error) {
     console.log(error);
     return Promise.reject(error);
@@ -14,8 +14,9 @@ export async function getCountries() {
 export async function getCities(idCountry){
     try {
         const response = await axios.get(`location/get-cities/${idCountry}`);
-        const newResponse = changeObject(response);
-        return newResponse;
+        console.log(response);
+        const citiesList = changeObject(response);
+        return citiesList;
       } catch (error) {
         console.log(error);
         return Promise.reject(error);
