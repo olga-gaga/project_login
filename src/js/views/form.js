@@ -35,6 +35,8 @@ export function removeInputError(element) {
 
 export async function addAutocomplite(id, list) {
   const optionContainer = getContainer(id);
+  optionContainer.innerHTML = '';
+
   const fragment = Object.keys(list)
     .reduce( (acc, key) => {
       acc += optionTemplate(key);

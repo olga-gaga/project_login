@@ -1,7 +1,7 @@
 import { SignUI } from '../config/ui.config';
 import { validForm } from '../helpers/validate';
 import { notify } from '../views/notifications'; 
-import { addAutocomplite, removeInputError } from '../views/form';
+import { addAutocomplite, removeInputError, showInputError } from '../views/form';
 import signup from '../services/signup.service';
 import { getCountries, getCities } from '../services/autocomplite.service';
 
@@ -20,28 +20,36 @@ export async function initAutocomplite(){
 
   country.addEventListener('change', async (e) => {
     const countryId = countriesList[country.value];
-    if( countryId !== -1) {
-      city.removeAttribute('disabled');
-      const cities = await getCities(countryId);
-      addAutocomplite('citiesList', cities);
+    if( countryId === undefined) {
+      showInputError(country);
+      city.setAttribute('disabled', '');
+      return;
     }
+    city.removeAttribute('disabled');
+    const cities = await getCities(countryId);
+    addAutocomplite('citiesList', cities);
   });
 }
 
 export async function onSubmit() {
+    inputs.forEach(element => removeInputError(element));
     const isValidForm = validForm(inputs);
     if (!isValidForm) return;
+    inputs.forEach( (input) => removeInputError(input));
 
     // Preparing data for posting
     const inputsValues = getInputsValues(inputsObj);
     const registrationData = createSignupObject(inputsValues);
-    
     try {
-      await signup(registrationData);
+      const result = await signup(registrationData);
+      if(result.error) {
+        notify({ message: result.message, className: 'alert-danger' });
+        return;
+      }
       form.reset();
-      notify({ message: 'Signup success', className: 'alert-success' });
-    } catch (err) {
-      notify({ message: 'Signup success', className: 'alert-danger' });
+      notify({ message: result.message, className: 'alert-success' });
+    } catch (error) {
+      notify({ message: 'Signup failed', className: 'alert-danger' });
     }
   }
 
@@ -94,4 +102,3 @@ export async function onSubmit() {
         date_of_birth_year: date.getFullYear(),
       };
   }
-

@@ -4,7 +4,7 @@ function getContainer() {
 
 function alertTemplate(message, className, index) {
   return `
-    <div class="alert ${className}" data-index="${index}">
+    <div class="alert ${className}" style="max-width: 350px;" data-index="${index}">
       ${message}
     </div>
   `;
